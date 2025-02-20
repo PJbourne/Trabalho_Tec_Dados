@@ -38,39 +38,31 @@ CALL AdicionarCorrida('8','Brasil','Interlagos','1h30m',1.25,'Lewis Hamilton','M
 
 SELECT * FROM Corridas WHERE Localidade = 'Brasil';
 
--- Procedure 2:
 
+
+-- Procedure 2: Adicionar um novo campeonato
 DELIMITER //
-CREATE FUNCTION total_pontos (in_team VARCHAR(50), in_year INT)
-RETURNS INT DETERMINISTIC
-BEGIN
-    SELECT 
-        e.Nome_Equipe,
-        YEAR(c.Ano) AS Ano_Campeonato,  
-        SUM(p.Pontos) AS total_team_points
-    FROM Equipes e
-    JOIN Pilotos p ON (e.Piloto_1 = p.ID_Pilotos OR e.Piloto_2 = p.ID_Pilotos)
-    JOIN Piloto_campeonato pc ON p.ID_Pilotos = pc.ID_Pilotos
-    JOIN Campeonato c ON pc.ID_Campeonato = c.ID_Campeonato
-    WHERE e.Nome_Equipe = in_team AND YEAR(c.Ano) = in_year
-    GROUP BY e.Nome_Equipe, YEAR(c.Ano)
-    ORDER BY Ano_Campeonato;
 
-    SELECT 
-        p.Nome_piloto,
-        YEAR(c.Ano) AS Ano_Campeonato,  
-        SUM(p.Pontos) AS pilot_total_points
-    FROM Equipes e
-    JOIN Pilotos p ON (e.Piloto_1 = p.ID_Pilotos OR e.Piloto_2 = p.ID_Pilotos)
-    JOIN Piloto_campeonato pc ON p.ID_Pilotos = pc.ID_Pilotos
-    JOIN Campeonato c ON pc.ID_Campeonato = c.ID_Campeonato
-    WHERE e.Nome_Equipe = in_team AND YEAR(c.Ano) = in_year
-    GROUP BY p.Nome_piloto, YEAR(c.Ano)
-    ORDER BY Ano_Campeonato;
+CREATE PROCEDURE AdicionarCampeonato(
+    IN p_idcampeonato INT,
+    IN p_ano DATE,
+    IN p_info VARCHAR(50)
+)
+BEGIN
+    -- Insere um novo campeonato na tabela Campeonato
+    INSERT INTO Campeonato (ID_Campeonato, Ano, Informacaoes)
+    VALUES (p_idcampeonato, p_ano, p_info);
+    
+    -- Mensagem de sucesso
+    SELECT 'Campeonato adicionado com sucesso!' AS Mensagem;
 END //
+
 DELIMITER ;
 
-CALL total_pontos('Mercedes',2023);
+
+CALL AdicionarCampeonato(4,'2024-01-01','Campeonato 2024');
+
+SELECT * FROM campeonato;
 
 -- Procedure 3:
 DELIMITER //

@@ -75,7 +75,7 @@ SELECT Nome_piloto, Pontos FROM Pilotos;
 CALL AdicionarCorrida('15','Brasil','Interlagos','1h30m',86.549,'Lewis Hamilton','Max Verstappen','Charles Leclerc','Sergio Perez','Carlos Sainz','Lando Norris','George Russell','Fernando Alonso','Esteban Ocon','Pierre Gasly',1);
 SELECT Nome_piloto, Pontos FROM Pilotos;
 
-
+-- Não deixa a criação de 2 campeonatos com o mesmo ano
 DELIMITER //
 CREATE TRIGGER ImpossibilitaCampeonatoIgual
 BEFORE INSERT ON Campeonato

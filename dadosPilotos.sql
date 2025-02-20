@@ -102,6 +102,8 @@ INSERT INTO Corridas (ID_Corrida, Localidade, Autodromo, Tempo, Volta_rapida, Pr
 (12, 'Países Baixos', 'Zandvoort', '1h30m05.395s', 73.643, 'Max Verstappen', 'Lewis Hamilton', 'Valtteri Bottas', 'Pierre Gasly', 'Charles Leclerc', 'Fernando Alonso', 'Carlos Sainz Jr.', 'Sergio Pérez', 'Esteban Ocon', 'Lando Norris', 1),
 (13, 'Itália', 'Monza', '1h21m54.365s', 84.812, 'Daniel Ricciardo', 'Lando Norris', 'Valtteri Bottas', 'Charles Leclerc', 'Sergio Pérez', 'Carlos Sainz Jr.', 'Lance Stroll', 'Fernando Alonso', 'George Russell', 'Esteban Ocon', 1),
 (14, 'Rússia', 'Sochi', '1h30m41.001s', 96.702, 'Lewis Hamilton', 'Max Verstappen', 'Carlos Sainz Jr.', 'Daniel Ricciardo', 'Valtteri Bottas', 'Fernando Alonso', 'Lando Norris', 'Kimi Räikkönen', 'Sergio Pérez', 'George Russell', 1);
+-- (15, 'Turquia', 'Istanbul Park', '1h31m04.103s', 90.432, 'Valtteri Bottas', 'Max Verstappen', 'Sergio Pérez', 'Charles Leclerc', 'Lewis Hamilton', 'Pierre Gasly', 'Lando Norris', 'Carlos Sainz Jr.', 'Lance Stroll', 'Esteban Ocon', 1);
+
 SELECT * FROM Corridas;
 -- INSERT CORRIDAS FIM -----------------------------------------------
 INSERT INTO Classificacao (Championship, Primeiro, Segundo, Terceiro, Quarto, Quinto, Sexto, Setimo, Oitavo, Nono, Decimo) VALUES

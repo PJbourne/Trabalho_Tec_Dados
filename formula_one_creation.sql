@@ -89,7 +89,20 @@ CREATE TABLE Corridas (
     Championship INTEGER,
     FOREIGN KEY (Championship) REFERENCES Campeonato(ID_Campeonato)
 );
-
+CREATE TABLE Pontuacao_classificacao(
+	Championship INTEGER PRIMARY KEY,
+    Primeiro INT,
+    Segundo INT,
+    Terceiro INT,
+    Quarto INT,
+    Quinto INT,
+    Sexto INT,
+    Setimo INT,
+    Oitavo INT,
+    Nono INT,
+    Decimo VARCHAR(50),
+    FOREIGN KEY (Championship) REFERENCES Classificacao(Championship)
+);
 CREATE TABLE Classificacao (
     Championship INTEGER PRIMARY KEY,
     Primeiro VARCHAR(50),

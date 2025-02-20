@@ -183,7 +183,19 @@ DELETE FROM Classificacao WHERE Championship = 1;
 SELECT * FROM Classificacao;
 -- Chamada da procedure:
 CALL montar_classificacao('2021-01-01');
+SELECT * FROM Corridas;
 
+INSERT INTO Corridas (ID_Corrida, Localidade, Autodromo, Tempo, Volta_rapida, Primeiro, Segundo, Terceiro, Quarto, Quinto, Sexto, Setimo, Oitavo, Nono, Decimo, Championship) VALUES
+(15, 'Turquia', 'Istanbul Park', '1h31m04.103s', 90.432, 'Valtteri Bottas', 'Max Verstappen', 'Sergio Pérez', 'Charles Leclerc', 'Lewis Hamilton', 'Pierre Gasly', 'Lando Norris', 'Carlos Sainz Jr.', 'Lance Stroll', 'Esteban Ocon', 1);
+-- Grande Prêmio dos Estados Unidos de 2021
+INSERT INTO Corridas (ID_Corrida, Localidade, Autodromo, Tempo, Volta_rapida, Primeiro, Segundo, Terceiro, Quarto, Quinto, Sexto, Setimo, Oitavo, Nono, Decimo, Championship) VALUES
+(16, 'Estados Unidos', 'Circuito das Américas, Austin, Texas', '1h34m36.552s', '98.485', 'Max Verstappen', 'Lewis Hamilton', 'Sergio Pérez', 'Charles Leclerc', 'Daniel Ricciardo', 'Valtteri Bottas', 'Carlos Sainz Jr.', 'Lando Norris', 'Yuki Tsunoda', 'Sebastian Vettel', 1);
+-- Grande Prêmio da Cidade do México de 2021
+INSERT INTO Corridas (ID_Corrida, Localidade, Autodromo, Tempo, Volta_rapida, Primeiro, Segundo, Terceiro, Quarto, Quinto, Sexto, Setimo, Oitavo, Nono, Decimo, Championship) VALUES
+(17, 'México', 'Autódromo Hermanos Rodríguez, Cidade do México', '1h38m39.086s', '77.774', 'Max Verstappen', 'Lewis Hamilton', 'Sergio Pérez', 'Pierre Gasly', 'Charles Leclerc', 'Carlos Sainz Jr.', 'Sebastian Vettel', 'Kimi Räikkönen', 'Fernando Alonso', 'Lando Norris', 1);
+-- Grande Prêmio de São Paulo de 2021
+INSERT INTO Corridas (ID_Corrida, Localidade, Autodromo, Tempo, Volta_rapida, Primeiro, Segundo, Terceiro, Quarto, Quinto, Sexto, Setimo, Oitavo, Nono, Decimo, Championship) VALUES
+(18, 'Brasil', 'Autódromo de Interlagos, São Paulo', '1h32m22.851s', '71.282', 'Lewis Hamilton', 'Max Verstappen', 'Valtteri Bottas', 'Carlos Sainz Jr.', 'Daniel Ricciardo', 'Lando Norris', 'Charles Leclerc', 'Sergio Pérez', 'Esteban Ocon', 'Sebastian Vettel', 1);
 
 -- procedure 4:
 drop procedure piloto_inf;
@@ -227,3 +239,20 @@ END //
 DELIMITER ;
 
 call equipe_inf();
+
+USE formula_one;
+DROP TRIGGER AtualizarClassificacao;
+DELIMITER //
+CREATE TRIGGER AtualizarClassificacao
+AFTER INSERT ON Corridas
+FOR EACH ROW
+BEGIN
+	DECLARE Campeonato INT;
+    DECLARE ChampDate DATE;
+    -- Atualiza a classificação dos pilotos com base nos resultados da corrida.
+    SET Campeonato = (SELECT Championship FROM Corridas WHERE ID_Corrida = (SELECT MAX(ID_Corrida) FROM Corridas));
+    SET ChampDate = (SELECT Ano FROM campeonato WHERE ID_Campeonato = Campeonato);
+    DELETE FROM Classificacao WHERE Championship = Campeonato;
+    CALL montar_classificacao(ChampDate);
+END//
+DELIMITER ;

@@ -1,3 +1,9 @@
+SELECT * FROM equipes;
+SELECT * FROM Pilotos;
+SELECT * FROM tem;
+SELECT * FROM Carros;
+
+
 -- Procedure 1:
 -- retorna quantos pontos o piloto tem no campeonato (ano)
 USE formula_one;
@@ -19,10 +25,10 @@ BEGIN
                 WHEN c.Quarto = in_pilot THEN 12
                 WHEN c.Quinto = in_pilot THEN 10
                 WHEN c.Sexto = in_pilot THEN 8
-                WHEN c.Setmo = in_pilot THEN 6
+                WHEN c.Setimo = in_pilot THEN 6
                 WHEN c.Oitavo = in_pilot THEN 4
                 WHEN c.Nono = in_pilot THEN 2
-                WHEN c.`Décimo` = in_pilot THEN 1
+                WHEN c.Decimo = in_pilot THEN 1
                 ELSE 0 -- Se o piloto não pontuou
             END AS race_points
         FROM Corridas c
@@ -30,7 +36,7 @@ BEGIN
         WHERE YEAR(camp.Ano) = in_year
         AND in_pilot IN (
             c.Primeiro, c.Segundo, c.Terceiro, c.Quarto, c.Quinto,
-            c.Sexto, c.Setmo, c.Oitavo, c.Nono, c.`Décimo`
+            c.Sexto, c.Setimo, c.Oitavo, c.Nono, c.Decimo
         )
     ) AS sub;
 END //

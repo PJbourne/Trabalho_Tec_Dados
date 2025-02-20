@@ -10,7 +10,7 @@ BEGIN
     WHERE e.Nome_Equipe = equipe;
     RETURN total;
 END //
-
+DELIMITER ;
 select PontosEquipe('Ferrari');
 
 
@@ -85,3 +85,22 @@ END //
 DELIMITER ;
 SELECT VoltaMaisRapidaLoc('Interlagos', '2022-01-01') ;
 
+-- 5 Retorna o carro utilizado pelo piloto
+DELIMITER //
+CREATE FUNCTION CarroPiloto(piloto_nome VARCHAR(50)) 
+RETURNS VARCHAR(100) DETERMINISTIC
+BEGIN
+    DECLARE carro_especificacoes VARCHAR(100);
+
+    -- Busca as especificações do carro utilizado pelo piloto
+    SELECT c.Especificacoes INTO carro_especificacoes
+    FROM Carros c
+    JOIN Equipes e ON c.Especificacoes LIKE CONCAT('%', e.Carro, '%') -- Associação baseada em texto
+    JOIN Pilotos p ON (e.Piloto_1 = p.ID_Pilotos OR e.Piloto_2 = p.ID_Pilotos)
+    WHERE p.Nome_piloto = piloto_nome;
+    RETURN carro_especificacoes;
+END //
+
+DELIMITER ;
+
+select CarroPiloto('Max Verstappen');

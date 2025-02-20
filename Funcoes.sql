@@ -36,7 +36,6 @@ select CorridasAno('2021-01-01');
 DELIMITER //
 CREATE FUNCTION VoltaMaisRapida(data_campeonato DATE)
 RETURNS DECIMAL(10,2) DETERMINISTIC
-
 BEGIN
     DECLARE menor_volta DECIMAL(10,2);
     SELECT MIN(c.Volta_rapida)
@@ -81,9 +80,8 @@ BEGIN
     -- Retorna a mensagem
     RETURN INFO;
 END //
-
 DELIMITER ;
-SELECT VoltaMaisRapidaLoc('Interlagos', '2022-01-01') ;
+SELECT VoltaMaisRapidaLoc('Interlagos', '2021-01-01') ;
 
 -- 5 Retorna o carro utilizado pelo piloto
 DELIMITER //
@@ -100,7 +98,6 @@ BEGIN
     WHERE p.Nome_piloto = piloto_nome;
     RETURN carro_especificacoes;
 END //
-
 DELIMITER ;
 
 select CarroPiloto('Max Verstappen');

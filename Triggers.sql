@@ -1,5 +1,4 @@
 -- Adiona pontos aos pilotots apos 1 corrida ser adicionada
-
 DELIMITER //
 CREATE TRIGGER AtualizarPontuacaoPilotos
 AFTER INSERT ON Corridas
@@ -102,6 +101,7 @@ SELECT * FROM campeonato;
 -- TRIGGER ATUALIZAR CAMPEONATO
 USE formula_one;
 DROP TRIGGER AtualizarClassificacao;
+
 DELIMITER //
 CREATE TRIGGER AtualizarClassificacao
 AFTER INSERT ON Corridas

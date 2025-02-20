@@ -90,7 +90,6 @@ BEGIN
     -- Se o campeonato nao existir, sair
     IF championship_id IS NULL THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Campeonato nao encontrado';
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Campeonato nao encontrado';
     END IF;
     
     -- Garantir que a tabela temporaria nao existe antes de criar
@@ -186,8 +185,8 @@ SELECT * FROM Classificacao;
 CALL montar_classificacao('2021-01-01');
 SELECT * FROM Corridas;
 
-INSERT INTO Corridas (ID_Corrida, Localidade, Autodromo, Tempo, Volta_rapida, Primeiro, Segundo, Terceiro, Quarto, Quinto, Sexto, Setimo, Oitavo, Nono, Decimo, Championship) VALUES
-(15, 'Turquia', 'Istanbul Park', '1h31m04.103s', 90.432, 'Valtteri Bottas', 'Max Verstappen', 'Sergio Pérez', 'Charles Leclerc', 'Lewis Hamilton', 'Pierre Gasly', 'Lando Norris', 'Carlos Sainz Jr.', 'Lance Stroll', 'Esteban Ocon', 1);
+-- INSERT INTO Corridas (ID_Corrida, Localidade, Autodromo, Tempo, Volta_rapida, Primeiro, Segundo, Terceiro, Quarto, Quinto, Sexto, Setimo, Oitavo, Nono, Decimo, Championship) VALUES
+CALL AdicionarCorrida(15, 'Turquia', 'Istanbul Park', '1h31m04.103s', 90.432, 'Valtteri Bottas', 'Max Verstappen', 'Sergio Pérez', 'Charles Leclerc', 'Lewis Hamilton', 'Pierre Gasly', 'Lando Norris', 'Carlos Sainz Jr.', 'Lance Stroll', 'Esteban Ocon', 1);
 -- Grande Prêmio dos Estados Unidos de 2021
 INSERT INTO Corridas (ID_Corrida, Localidade, Autodromo, Tempo, Volta_rapida, Primeiro, Segundo, Terceiro, Quarto, Quinto, Sexto, Setimo, Oitavo, Nono, Decimo, Championship) VALUES
 (16, 'Estados Unidos', 'Circuito das Américas, Austin, Texas', '1h34m36.552s', '98.485', 'Max Verstappen', 'Lewis Hamilton', 'Sergio Pérez', 'Charles Leclerc', 'Daniel Ricciardo', 'Valtteri Bottas', 'Carlos Sainz Jr.', 'Lando Norris', 'Yuki Tsunoda', 'Sebastian Vettel', 1);

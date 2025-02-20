@@ -89,13 +89,13 @@ INSERT INTO Carros (ID_carro, Especificacoes, Fabricante, ID_motor) VALUES
 -- INSERT CORRIDAS INIT -----------------------------------------------
 INSERT INTO Corridas (ID_Corrida, Localidade, Autodromo, Tempo, Volta_rapida, Primeiro, Segundo, Terceiro, Championship) VALUES
 (1, 'Bahrein', 'Sakhir', '1h30m', 1.30, 'Max Verstappen', 'Charles Leclerc', 'Lewis Hamilton', 1),
-(2, 'Austrália', 'Albert Park', '1h25m', 1.28, 'Lando Norris', 'Max Verstappen', 'Carlos Sainz', 1);
+(2, 'Austrália', 'Albert Park', '1h25', 1.28, 'Lando Norris', 'Max Verstappen', 'Carlos Sainz', 1);
 INSERT INTO Corridas (ID_Corrida, Localidade, Autodromo, Tempo, Volta_rapida, Primeiro, Segundo, Terceiro, Championship) VALUES
-(3, 'Mônaco', 'Circuito de Mônaco', '1h40m', 1.35, 'Fernando Alonso', 'Max Verstappen', 'Lewis Hamilton', 1),
-(4, 'Reino Unido', 'Silverstone', '1h27m', 1.30, 'Lewis Hamilton', 'George Russell', 'Charles Leclerc', 1),
+(3, 'Mônaco', 'Circuito de Mônaco', '1h40', 1.35, 'Fernando Alonso', 'Max Verstappen', 'Lewis Hamilton', 1),
+(4, 'Reino Unido', 'Silverstone', '1h27', 1.30, 'Lewis Hamilton', 'George Russell', 'Charles Leclerc', 1),
 (5, 'Itália', 'Monza', '1h20m', 1.25, 'Charles Leclerc', 'Carlos Sainz', 'Lando Norris', 1),
 (6, 'Japão', 'Suzuka', '1h32m', 1.28, 'Max Verstappen', 'Sergio Perez', 'Oscar Piastri', 2),
-(7, 'Brasil', 'Interlagos', '1h29m', 1.31, 'Lewis Hamilton', 'Fernando Alonso', 'George Russell', 2);
+(7, 'Brasil', 'Interlagos', '1h29', 1.31, 'Lewis Hamilton', 'Fernando Alonso', 'George Russell', 2);
 SELECT * FROM Corridas;
 -- INSERT CORRIDAS FIM -----------------------------------------------
 INSERT INTO Classificacao (Championship, Primeiro, Segundo, Terceiro, Quarto, Quinto, Sexto, Setimo, Oitavo, Nono, Decimo) VALUES
@@ -149,3 +149,13 @@ UPDATE Corridas SET Quarto = 'Carlos Sainz', Quinto = 'Oscar Piastri', Sexto = '
 Setimo = 'Pierre Gasly', Oitavo = 'Lance Stroll', Nono = 'Kevin Magnussen', Decimo = 'Daniel Ricciardo'
 WHERE ID_Corrida = 7;
 
+INSERT INTO tem (Equipe, ID_carro) VALUES
+('Red Bull', 201),
+('Mercedes', 202),
+('Ferrari', 203),
+('McLaren', 204),
+('Aston Martin', 205),
+('Alpine', 206),
+('Alfa Romeo', 207),
+('Haas', 208),
+('AlphaTauri', 209);

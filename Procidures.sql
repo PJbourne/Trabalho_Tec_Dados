@@ -1,75 +1,68 @@
--- Procedure 1:
--- retorna quantos pontos o piloto tem no campeonato (ano)
-USE formula_one;
+-- Procedure 1: Adicionar uma nova carrida
 DELIMITER //
-CREATE PROCEDURE piloto_pontos_ano(in_pilot VARCHAR(50), in_year INT) -- (IN in_pilot VARCHAR(50), IN in_year INT)
+CREATE PROCEDURE AdicionarCorrida(
+	IN p_idcorrida INT,
+    IN p_Localidade VARCHAR(50),
+    IN p_Autodromo VARCHAR(50),
+    IN p_Tempo VARCHAR(50),
+    IN p_VoltaRapida DECIMAL(10, 2),
+    IN p_Primeiro VARCHAR(50),
+    IN p_Segundo VARCHAR(50),
+    IN p_Terceiro VARCHAR(50),
+    IN p_Quarto VARCHAR(50),
+    IN p_Quinto VARCHAR(50),
+    IN p_Sexto VARCHAR(50),
+    IN p_Setimo VARCHAR(50),
+    IN p_Oitavo VARCHAR(50),
+    IN p_Nono VARCHAR(50),
+    IN p_Decimo VARCHAR(50),
+    IN p_ID_Campeonato INT
+)
 BEGIN
-    SELECT 
-        in_pilot AS Piloto,
-        COUNT(*) AS total_races,
-        SUM(race_points) AS total_points,
-        AVG(race_points) AS avg_points
-    FROM (
-        SELECT
-            c.ID_Corrida,
-            CASE
-                WHEN c.Primeiro = in_pilot THEN 25
-                WHEN c.Segundo = in_pilot THEN 18
-                WHEN c.Terceiro = in_pilot THEN 15
-                WHEN c.Quarto = in_pilot THEN 12
-                WHEN c.Quinto = in_pilot THEN 10
-                WHEN c.Sexto = in_pilot THEN 8
-                WHEN c.Setmo = in_pilot THEN 6
-                WHEN c.Oitavo = in_pilot THEN 4
-                WHEN c.Nono = in_pilot THEN 2
-                WHEN c.`Décimo` = in_pilot THEN 1
-                ELSE 0 -- Se o piloto não pontuou
-            END AS race_points
-        FROM Corridas c
-        JOIN Campeonato camp ON c.Championship = camp.ID_Campeonato
-        WHERE YEAR(camp.Ano) = in_year
-        AND in_pilot IN (
-            c.Primeiro, c.Segundo, c.Terceiro, c.Quarto, c.Quinto,
-            c.Sexto, c.Setmo, c.Oitavo, c.Nono, c.`Décimo`
-        )
-    ) AS sub;
-END //
-DELIMITER ;
-CALL piloto_pontos_ano('Lewis Hamilton', 2022);
-
--- Procedure 2:
-
-DELIMITER //
-CREATE FUNCTION total_pontos (in_team VARCHAR(50), in_year INT)
-RETURNS INT DETERMINISTIC
-BEGIN
-    SELECT 
-        e.Nome_Equipe,
-        YEAR(c.Ano) AS Ano_Campeonato,  
-        SUM(p.Pontos) AS total_team_points
-    FROM Equipes e
-    JOIN Pilotos p ON (e.Piloto_1 = p.ID_Pilotos OR e.Piloto_2 = p.ID_Pilotos)
-    JOIN Piloto_campeonato pc ON p.ID_Pilotos = pc.ID_Pilotos
-    JOIN Campeonato c ON pc.ID_Campeonato = c.ID_Campeonato
-    WHERE e.Nome_Equipe = in_team AND YEAR(c.Ano) = in_year
-    GROUP BY e.Nome_Equipe, YEAR(c.Ano)
-    ORDER BY Ano_Campeonato;
-
-    SELECT 
-        p.Nome_piloto,
-        YEAR(c.Ano) AS Ano_Campeonato,  
-        SUM(p.Pontos) AS pilot_total_points
-    FROM Equipes e
-    JOIN Pilotos p ON (e.Piloto_1 = p.ID_Pilotos OR e.Piloto_2 = p.ID_Pilotos)
-    JOIN Piloto_campeonato pc ON p.ID_Pilotos = pc.ID_Pilotos
-    JOIN Campeonato c ON pc.ID_Campeonato = c.ID_Campeonato
-    WHERE e.Nome_Equipe = in_team AND YEAR(c.Ano) = in_year
-    GROUP BY p.Nome_piloto, YEAR(c.Ano)
-    ORDER BY Ano_Campeonato;
+    -- Insere a nova corrida na tabela Corridas
+    INSERT INTO Corridas (
+        ID_Corrida,Localidade, Autodromo, Tempo, Volta_rapida,
+        Primeiro, Segundo, Terceiro, Quarto, Quinto,
+        Sexto, Setimo, Oitavo, Nono, Decimo, Championship
+    ) VALUES (
+        p_idcorrida,p_Localidade, p_Autodromo, p_Tempo, p_VoltaRapida,
+        p_Primeiro, p_Segundo, p_Terceiro, p_Quarto, p_Quinto,
+        p_Sexto, p_Setimo, p_Oitavo, p_Nono, p_Decimo, p_ID_Campeonato
+    );
+    -- Mensagem de sucesso
+    SELECT 'Corrida adicionada com sucesso!' AS Mensagem;
 END //
 DELIMITER ;
 
-CALL total_pontos('Mercedes',2023);
+CALL AdicionarCorrida('8','Brasil','Interlagos','1h30m',1.25,'Lewis Hamilton','Max Verstappen','Charles Leclerc','Sergio Perez','Carlos Sainz','Lando Norris','George Russell','Fernando Alonso','Esteban Ocon','Pierre Gasly',1);
+
+SELECT * FROM Corridas WHERE Localidade = 'Brasil';
+
+
+
+-- Procedure 2: Adicionar um novo campeonato
+DELIMITER //
+
+CREATE PROCEDURE AdicionarCampeonato(
+    IN p_idcampeonato INT,
+    IN p_ano DATE,
+    IN p_info VARCHAR(50)
+)
+BEGIN
+    -- Insere um novo campeonato na tabela Campeonato
+    INSERT INTO Campeonato (ID_Campeonato, Ano, Informacaoes)
+    VALUES (p_idcampeonato, p_ano, p_info);
+    
+    -- Mensagem de sucesso
+    SELECT 'Campeonato adicionado com sucesso!' AS Mensagem;
+END //
+
+DELIMITER ;
+
+
+CALL AdicionarCampeonato(4,'2024-01-01','Campeonato 2024');
+
+SELECT * FROM campeonato;
 
 -- Procedure 3:
 DELIMITER //

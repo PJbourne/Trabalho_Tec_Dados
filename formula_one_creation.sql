@@ -89,20 +89,6 @@ CREATE TABLE Corridas (
     Championship INTEGER,
     FOREIGN KEY (Championship) REFERENCES Campeonato(ID_Campeonato)
 );
-CREATE TABLE Pontuacao_classificacao(
-	Championship INTEGER PRIMARY KEY,
-    Primeiro INT,
-    Segundo INT,
-    Terceiro INT,
-    Quarto INT,
-    Quinto INT,
-    Sexto INT,
-    Setimo INT,
-    Oitavo INT,
-    Nono INT,
-    Decimo VARCHAR(50),
-    FOREIGN KEY (Championship) REFERENCES Classificacao(Championship)
-);
 CREATE TABLE Classificacao (
     Championship INTEGER PRIMARY KEY,
     Primeiro VARCHAR(50),
@@ -117,14 +103,19 @@ CREATE TABLE Classificacao (
     Decimo VARCHAR(50),
     FOREIGN KEY (Championship) REFERENCES Campeonato(ID_Campeonato)
 );
-
-CREATE TABLE Equipe_campeonato (
-    Equipe_no_campeonato VARCHAR(50) PRIMARY KEY,
-    Campeonato VARCHAR(50),
-    Equipe VARCHAR(50),
-    ID_Campeonato INTEGER,
-    FOREIGN KEY (Equipe_no_campeonato) REFERENCES Equipes(Nome_Equipe),
-    FOREIGN KEY (ID_Campeonato) REFERENCES Campeonato(ID_Campeonato)
+CREATE TABLE Pontuacao_classificacao(
+	Championship INTEGER PRIMARY KEY,
+    Primeiro INT,
+    Segundo INT,
+    Terceiro INT,
+    Quarto INT,
+    Quinto INT,
+    Sexto INT,
+    Setimo INT,
+    Oitavo INT,
+    Nono INT,
+    Decimo VARCHAR(50),
+    FOREIGN KEY (Championship) REFERENCES Classificacao(Championship)
 );
 
 CREATE TABLE Participam (
@@ -136,14 +127,6 @@ ALTER TABLE Participam ADD CONSTRAINT FK_Participam_1
 ALTER TABLE Participam ADD CONSTRAINT FK_Participam_2
     FOREIGN KEY (ID_Corrida) REFERENCES Corridas (ID_Corrida) ON DELETE SET NULL;
 
-CREATE TABLE estao (
-    ID_Pilotos INTEGER,
-    Campeonato INTEGER
-);
-ALTER TABLE estao ADD CONSTRAINT FK_estao_1
-    FOREIGN KEY (ID_Pilotos) REFERENCES Pilotos (ID_Pilotos) ON DELETE SET NULL;
-ALTER TABLE estao ADD CONSTRAINT FK_estao_2
-    FOREIGN KEY (Campeonato) REFERENCES Classificacao (Championship) ON DELETE SET NULL;
 
 CREATE TABLE tem (
     Equipe VARCHAR(50),

@@ -90,6 +90,7 @@ BEGIN
     -- Se o campeonato nao existir, sair
     IF championship_id IS NULL THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Campeonato nao encontrado';
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Campeonato nao encontrado';
     END IF;
     
     -- Garantir que a tabela temporaria nao existe antes de criar
@@ -240,19 +241,3 @@ DELIMITER ;
 
 call equipe_inf();
 
-USE formula_one;
-DROP TRIGGER AtualizarClassificacao;
-DELIMITER //
-CREATE TRIGGER AtualizarClassificacao
-AFTER INSERT ON Corridas
-FOR EACH ROW
-BEGIN
-	DECLARE Campeonato INT;
-    DECLARE ChampDate DATE;
-    -- Atualiza a classificação dos pilotos com base nos resultados da corrida.
-    SET Campeonato = (SELECT Championship FROM Corridas WHERE ID_Corrida = (SELECT MAX(ID_Corrida) FROM Corridas));
-    SET ChampDate = (SELECT Ano FROM campeonato WHERE ID_Campeonato = Campeonato);
-    DELETE FROM Classificacao WHERE Championship = Campeonato;
-    CALL montar_classificacao(ChampDate);
-END//
-DELIMITER ;

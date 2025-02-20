@@ -99,3 +99,20 @@ CALL AdicionarCampeonato(4,'2023-01-01','Campeonato 2024');
 
 SELECT * FROM campeonato;
 
+-- TRIGGER ATUALIZAR CAMPEONATO
+USE formula_one;
+DROP TRIGGER AtualizarClassificacao;
+DELIMITER //
+CREATE TRIGGER AtualizarClassificacao
+AFTER INSERT ON Corridas
+FOR EACH ROW
+BEGIN
+	DECLARE Campeonato INT;
+    DECLARE ChampDate DATE;
+    -- Atualiza a classificação dos pilotos com base nos resultados da corrida.
+    SET Campeonato = (SELECT Championship FROM Corridas WHERE ID_Corrida = (SELECT MAX(ID_Corrida) FROM Corridas));
+    SET ChampDate = (SELECT Ano FROM campeonato WHERE ID_Campeonato = Campeonato);
+    DELETE FROM Classificacao WHERE Championship = Campeonato;
+    CALL montar_classificacao(ChampDate);
+END//
+DELIMITER ;

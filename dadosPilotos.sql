@@ -87,15 +87,21 @@ INSERT INTO Carros (ID_carro, Especificacoes, Fabricante, ID_motor) VALUES
 (209, 'AT04, motor Honda', 1, 101);
 -- INSERT CARROS FIM -----------------------------------------------
 -- INSERT CORRIDAS INIT -----------------------------------------------
-INSERT INTO Corridas (ID_Corrida, Localidade, Autodromo, Tempo, Volta_rapida, Primeiro, Segundo, Terceiro, Championship) VALUES
-(1, 'Bahrein', 'Sakhir', '1h30m', 1.30, 'Max Verstappen', 'Charles Leclerc', 'Lewis Hamilton', 1),
-(2, 'Austrália', 'Albert Park', '1h25', 1.28, 'Lando Norris', 'Max Verstappen', 'Carlos Sainz', 1);
-INSERT INTO Corridas (ID_Corrida, Localidade, Autodromo, Tempo, Volta_rapida, Primeiro, Segundo, Terceiro, Championship) VALUES
-(3, 'Mônaco', 'Circuito de Mônaco', '1h40', 1.35, 'Fernando Alonso', 'Max Verstappen', 'Lewis Hamilton', 1),
-(4, 'Reino Unido', 'Silverstone', '1h27', 1.30, 'Lewis Hamilton', 'George Russell', 'Charles Leclerc', 1),
-(5, 'Itália', 'Monza', '1h20m', 1.25, 'Charles Leclerc', 'Carlos Sainz', 'Lando Norris', 1),
-(6, 'Japão', 'Suzuka', '1h32m', 1.28, 'Max Verstappen', 'Sergio Perez', 'Oscar Piastri', 2),
-(7, 'Brasil', 'Interlagos', '1h29', 1.31, 'Lewis Hamilton', 'Fernando Alonso', 'George Russell', 2);
+INSERT INTO Corridas (ID_Corrida, Localidade, Autodromo, Tempo, Volta_rapida, Primeiro, Segundo, Terceiro, Quarto, Quinto, Sexto, Setimo, Oitavo, Nono, Decimo, Championship) VALUES
+(1, 'Bahrein', 'Sakhir', '1h32m03.897s', 92.090, 'Lewis Hamilton', 'Max Verstappen', 'Valtteri Bottas', 'Lando Norris', 'Sergio Pérez', 'Charles Leclerc', 'Daniel Ricciardo', 'Carlos Sainz Jr.', 'Yuki Tsunoda', 'Lance Stroll', 1),
+(2, 'Itália', 'Imola', '2h02m34.598s', 75.484, 'Max Verstappen', 'Lewis Hamilton', 'Lando Norris', 'Charles Leclerc', 'Carlos Sainz Jr.', 'Daniel Ricciardo', 'Pierre Gasly', 'Lance Stroll', 'Esteban Ocon', 'Fernando Alonso', 1),
+(3, 'Portugal', 'Portimão', '1h34m31.421s', 79.865, 'Lewis Hamilton', 'Max Verstappen', 'Valtteri Bottas', 'Sergio Pérez', 'Lando Norris', 'Charles Leclerc', 'Esteban Ocon', 'Fernando Alonso', 'Daniel Ricciardo', 'Pierre Gasly', 1),
+(4, 'Espanha', 'Barcelona', '1h33m07.680s', 83.840, 'Lewis Hamilton', 'Max Verstappen', 'Valtteri Bottas', 'Charles Leclerc', 'Sergio Pérez', 'Daniel Ricciardo', 'Carlos Sainz Jr.', 'Lando Norris', 'Esteban Ocon', 'Pierre Gasly', 1),
+(5, 'Mônaco', 'Monte Carlo', '1h38m56.820s', 73.798, 'Max Verstappen', 'Carlos Sainz Jr.', 'Lando Norris', 'Sergio Pérez', 'Sebastian Vettel', 'Pierre Gasly', 'Lewis Hamilton', 'Lance Stroll', 'Esteban Ocon', 'Antonio Giovinazzi', 1),
+(6, 'Azerbaijão', 'Baku', '2h13m36.410s', 101.240, 'Sergio Pérez', 'Sebastian Vettel', 'Pierre Gasly', 'Charles Leclerc', 'Lando Norris', 'Fernando Alonso', 'Yuki Tsunoda', 'Carlos Sainz Jr.', 'Daniel Ricciardo', 'Kimi Räikkönen', 1),
+(7, 'França', 'Le Castellet', '1h27m25.770s', 92.872, 'Max Verstappen', 'Lewis Hamilton', 'Sergio Pérez', 'Valtteri Bottas', 'Lando Norris', 'Daniel Ricciardo', 'Pierre Gasly', 'Fernando Alonso', 'Sebastian Vettel', 'Lance Stroll', 1),
+(8, 'Áustria', 'Spielberg', '1h23m54.543s', 64.984, 'Max Verstappen', 'Valtteri Bottas', 'Lando Norris', 'Lewis Hamilton', 'Carlos Sainz Jr.', 'Sergio Pérez', 'Daniel Ricciardo', 'Charles Leclerc', 'Pierre Gasly', 'Fernando Alonso', 1),
+(9, 'Grã-Bretanha', 'Silverstone', '1h58m23.284s', 87.097, 'Lewis Hamilton', 'Charles Leclerc', 'Valtteri Bottas', 'Lando Norris', 'Daniel Ricciardo', 'Carlos Sainz Jr.', 'Fernando Alonso', 'Lance Stroll', 'Esteban Ocon', 'Yuki Tsunoda', 1),
+(10, 'Hungria', 'Budapeste', '2h04m43.199s', 80.828, 'Esteban Ocon', 'Lewis Hamilton', 'Carlos Sainz Jr.', 'Fernando Alonso', 'Pierre Gasly', 'Yuki Tsunoda', 'Nicholas Latifi', 'George Russell', 'Max Verstappen', 'Kimi Räikkönen', 1),
+(11, 'Bélgica', 'Spa-Francorchamps', '3h27m07.000s', 0.000, 'Max Verstappen', 'George Russell', 'Lewis Hamilton', 'Daniel Ricciardo', 'Sebastian Vettel', 'Pierre Gasly', 'Esteban Ocon', 'Charles Leclerc', 'Nicholas Latifi', 'Carlos Sainz Jr.', 1),
+(12, 'Países Baixos', 'Zandvoort', '1h30m05.395s', 73.643, 'Max Verstappen', 'Lewis Hamilton', 'Valtteri Bottas', 'Pierre Gasly', 'Charles Leclerc', 'Fernando Alonso', 'Carlos Sainz Jr.', 'Sergio Pérez', 'Esteban Ocon', 'Lando Norris', 1),
+(13, 'Itália', 'Monza', '1h21m54.365s', 84.812, 'Daniel Ricciardo', 'Lando Norris', 'Valtteri Bottas', 'Charles Leclerc', 'Sergio Pérez', 'Carlos Sainz Jr.', 'Lance Stroll', 'Fernando Alonso', 'George Russell', 'Esteban Ocon', 1),
+(14, 'Rússia', 'Sochi', '1h30m41.001s', 96.702, 'Lewis Hamilton', 'Max Verstappen', 'Carlos Sainz Jr.', 'Daniel Ricciardo', 'Valtteri Bottas', 'Fernando Alonso', 'Lando Norris', 'Kimi Räikkönen', 'Sergio Pérez', 'George Russell', 1);
 SELECT * FROM Corridas;
 -- INSERT CORRIDAS FIM -----------------------------------------------
 INSERT INTO Classificacao (Championship, Primeiro, Segundo, Terceiro, Quarto, Quinto, Sexto, Setimo, Oitavo, Nono, Decimo) VALUES

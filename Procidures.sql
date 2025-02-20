@@ -65,52 +65,135 @@ CALL AdicionarCampeonato(4,'2024-01-01','Campeonato 2024');
 SELECT * FROM campeonato;
 
 -- Procedure 3:
+
+DROP PROCEDURE montar_classificacao;
 DELIMITER //
-CREATE PROCEDURE campeonato_info(IN championship_date DATE)
+CREATE PROCEDURE montar_classificacao(championship_date DATE)
 BEGIN
-    SELECT 
-        c.ID_Campeonato,
-        YEAR(c.Ano) AS AnoCampeonato,
-        COUNT(cr.ID_Corrida) AS TotalCorridas
-    FROM Campeonato c
-    LEFT JOIN Corridas cr ON c.ID_Campeonato = cr.Championship
-    WHERE YEAR(c.Ano) = YEAR(championship_date)
-    GROUP BY c.ID_Campeonato, YEAR(c.Ano);
-
-    SELECT 
-        p.Nome_piloto,
-        p.Pontos
-    FROM Pilotos p
-    JOIN Piloto_campeonato pc ON p.ID_Pilotos = pc.ID_Pilotos
-    JOIN Campeonato c ON pc.ID_Campeonato = c.ID_Campeonato
-    WHERE YEAR(c.Ano) = YEAR(championship_date)
-    ORDER BY p.Pontos DESC
-    LIMIT 1;
-
-    SELECT 
-        p.Nome_piloto,
-        COUNT(cr.Volta_rápida) AS TotalVoltasRapidas
-    FROM Pilotos p
-    JOIN Corridas cr ON cr.Volta_rápida = p.ID_Pilotos
-    JOIN Campeonato c ON cr.Championship = c.ID_Campeonato
-    WHERE YEAR(c.Ano) = YEAR(championship_date)
-    GROUP BY p.ID_Pilotos
-    ORDER BY TotalVoltasRapidas DESC
-    LIMIT 1;
+    DECLARE championship_id INT;
+    DECLARE done INT DEFAULT 0;
+    DECLARE piloto_nome VARCHAR(50);
+    DECLARE piloto_pontos INT;
+    DECLARE ranking INT DEFAULT 1;
+    
+    -- Cursor para armazenar a classificacao
+    DECLARE class_cursor CURSOR FOR
+        SELECT Piloto, Pontos FROM Pontuacao_Pilotos ORDER BY Pontos DESC, Piloto;
+    
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+    
+    -- Obter o ID do campeonato com base no ano fornecido
+    SELECT ID_Campeonato INTO championship_id 
+    FROM Campeonato 
+    WHERE YEAR(Ano) = YEAR(championship_date);
+    
+    -- Se o campeonato nao existir, sair
+    IF championship_id IS NULL THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Campeonato nao encontrado';
+    END IF;
+    
+    -- Garantir que a tabela temporaria nao existe antes de criar
+    DROP TEMPORARY TABLE IF EXISTS Pontuacao_Pilotos;
+    
+    -- Criar uma tabela temporaria para armazenar os pontos
+    CREATE TEMPORARY TABLE Pontuacao_Pilotos (
+        Piloto VARCHAR(50) PRIMARY KEY,
+        Pontos INT DEFAULT 0
+    );
+    
+    -- Inserir ou atualizar pontos com base nos resultados das corridas
+    INSERT INTO Pontuacao_Pilotos (Piloto, Pontos)
+    SELECT Primeiro, 25 FROM Corridas WHERE Championship = championship_id
+    ON DUPLICATE KEY UPDATE Pontos = Pontos + 25;
+    
+    INSERT INTO Pontuacao_Pilotos (Piloto, Pontos)
+    SELECT Segundo, 18 FROM Corridas WHERE Championship = championship_id
+    ON DUPLICATE KEY UPDATE Pontos = Pontos + 18;
+    
+    INSERT INTO Pontuacao_Pilotos (Piloto, Pontos)
+    SELECT Terceiro, 15 FROM Corridas WHERE Championship = championship_id
+    ON DUPLICATE KEY UPDATE Pontos = Pontos + 15;
+    
+    INSERT INTO Pontuacao_Pilotos (Piloto, Pontos)
+    SELECT Quarto, 12 FROM Corridas WHERE Championship = championship_id
+    ON DUPLICATE KEY UPDATE Pontos = Pontos + 12;
+    
+    INSERT INTO Pontuacao_Pilotos (Piloto, Pontos)
+    SELECT Quinto, 10 FROM Corridas WHERE Championship = championship_id
+    ON DUPLICATE KEY UPDATE Pontos = Pontos + 10;
+    
+    INSERT INTO Pontuacao_Pilotos (Piloto, Pontos)
+    SELECT Sexto, 8 FROM Corridas WHERE Championship = championship_id
+    ON DUPLICATE KEY UPDATE Pontos = Pontos + 8;
+    
+    INSERT INTO Pontuacao_Pilotos (Piloto, Pontos)
+    SELECT Setimo, 6 FROM Corridas WHERE Championship = championship_id
+    ON DUPLICATE KEY UPDATE Pontos = Pontos + 6;
+    
+    INSERT INTO Pontuacao_Pilotos (Piloto, Pontos)
+    SELECT Oitavo, 4 FROM Corridas WHERE Championship = championship_id
+    ON DUPLICATE KEY UPDATE Pontos = Pontos + 4;
+    
+    INSERT INTO Pontuacao_Pilotos (Piloto, Pontos)
+    SELECT Nono, 2 FROM Corridas WHERE Championship = championship_id
+    ON DUPLICATE KEY UPDATE Pontos = Pontos + 2;
+    
+    INSERT INTO Pontuacao_Pilotos (Piloto, Pontos)
+    SELECT Decimo, 1 FROM Corridas WHERE Championship = championship_id
+    ON DUPLICATE KEY UPDATE Pontos = Pontos + 1;
+    
+    -- Abrir cursor e inserir na classificacao
+    OPEN class_cursor;
+    
+    DELETE FROM Classificacao WHERE Championship = championship_id;
+    
+    INSERT INTO Classificacao (Championship) VALUES (championship_id);
+    
+    read_loop: LOOP
+        FETCH class_cursor INTO piloto_nome, piloto_pontos;
+        IF done THEN
+            LEAVE read_loop;
+        END IF;
+        
+        CASE ranking
+            WHEN 1 THEN UPDATE Classificacao SET Primeiro = piloto_nome WHERE Championship = championship_id;
+            WHEN 2 THEN UPDATE Classificacao SET Segundo = piloto_nome WHERE Championship = championship_id;
+            WHEN 3 THEN UPDATE Classificacao SET Terceiro = piloto_nome WHERE Championship = championship_id;
+            WHEN 4 THEN UPDATE Classificacao SET Quarto = piloto_nome WHERE Championship = championship_id;
+            WHEN 5 THEN UPDATE Classificacao SET Quinto = piloto_nome WHERE Championship = championship_id;
+            WHEN 6 THEN UPDATE Classificacao SET Sexto = piloto_nome WHERE Championship = championship_id;
+            WHEN 7 THEN UPDATE Classificacao SET Setimo = piloto_nome WHERE Championship = championship_id;
+            WHEN 8 THEN UPDATE Classificacao SET Oitavo = piloto_nome WHERE Championship = championship_id;
+            WHEN 9 THEN UPDATE Classificacao SET Nono = piloto_nome WHERE Championship = championship_id;
+            WHEN 10 THEN UPDATE Classificacao SET Decimo = piloto_nome WHERE Championship = championship_id;
+        END CASE;
+        
+        SET ranking = ranking + 1;
+        IF ranking > 10 THEN LEAVE read_loop; END IF;
+    END LOOP;
+    
+    CLOSE class_cursor;
+    
+    -- Remover tabela temporaria
+    DROP TEMPORARY TABLE IF EXISTS Pontuacao_Pilotos;
 END //
 DELIMITER ;
 
+DELETE FROM Classificacao WHERE Championship = 1;
+SELECT * FROM Classificacao;
 -- Chamada da procedure:
-CALL campeonato_info('2021-01-01');
+CALL montar_classificacao('2021-01-01');
+
 
 -- procedure 4:
+drop procedure piloto_inf;
 DELIMITER //
 CREATE PROCEDURE piloto_inf(nome_piloto_input VARCHAR(50))
 BEGIN
     SELECT 
         p.ID_Pilotos, 
         p.Nome_piloto, 
-        p.Salário, 
+        p.Salario, 
         p.Equipe, 
         e.Carro, 
         IFNULL(COUNT(pc.ID_Campeonato), 0) AS Campeonatos

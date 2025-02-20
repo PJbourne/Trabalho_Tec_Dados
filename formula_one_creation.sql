@@ -75,7 +75,7 @@ CREATE TABLE Corridas (
     Localidade VARCHAR(50),
     Autodromo VARCHAR(50),
     Tempo VARCHAR(50),
-    Volta_rapida decimal(10,2),
+    Volta_rapida decimal(10,3),
     Primeiro VARCHAR(50),
     Segundo VARCHAR(50),
     Terceiro VARCHAR(50),
